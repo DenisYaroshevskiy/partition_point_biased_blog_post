@@ -1,6 +1,1 @@
-CMakeCache.txt
-compile_commands.json
-CMakeFiles/
-Makefile
-cmake_install.cmake
-test
+build/*

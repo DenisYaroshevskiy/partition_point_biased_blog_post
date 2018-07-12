@@ -15,6 +15,9 @@ set(HEADER_FILE
 set(TEST_SOURCE_FILES
     third_party/main_catch.cc)
 set(BENCHMARK_SOURCE_FILES
+    binary_search_benchmark.cc
     third_party/google_benchmark_main.cc)
 
 add_executable(test ${TEST_SOURCE_FILES})
+add_executable(benchmarks ${BENCHMARK_SOURCE_FILES})
+target_link_libraries(benchmarks benchmark)
