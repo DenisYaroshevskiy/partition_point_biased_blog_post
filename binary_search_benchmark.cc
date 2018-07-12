@@ -34,7 +34,7 @@ void set_looking_for_index(benchmark::internal::Benchmark* bench) {
 struct linear {
   template <typename I, typename V>
   I operator()(I f, I l, const V& v) {
-    return std::find(f, l, v);
+    return std::find_if(f, l, [&](const auto& x) { !(x < v); });
   }
 };
 
