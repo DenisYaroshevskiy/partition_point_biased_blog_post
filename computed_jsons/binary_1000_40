@@ -1,0 +1,213 @@
+{
+  "context": {
+    "date": "2018-07-13 01:29:23",
+    "executable": "./benchmarks",
+    "num_cpus": 4,
+    "mhz_per_cpu": 1800,
+    "cpu_scaling_enabled": false,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 32768000,
+        "num_sharing": 2
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 32768000,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 262144000,
+        "num_sharing": 2
+      },
+      {
+        "type": "Unified",
+        "level": 3,
+        "size": 3145728000,
+        "num_sharing": 4
+      }
+    ],
+    "library_build_type": "release"
+  },
+  "benchmarks": [
+    {
+      "name": "benchmark_search<binary>/0",
+      "iterations": 17455140,
+      "real_time": 4.0654989705066868e+01,
+      "cpu_time": 4.0446023348996341e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/40",
+      "iterations": 16925465,
+      "real_time": 4.0490522594172795e+01,
+      "cpu_time": 4.0291950619968176e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/80",
+      "iterations": 17438051,
+      "real_time": 4.0670404393238755e+01,
+      "cpu_time": 4.0508024663994838e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/120",
+      "iterations": 17528308,
+      "real_time": 3.9950658329321328e+01,
+      "cpu_time": 3.9811372552330781e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/160",
+      "iterations": 17551294,
+      "real_time": 4.0001843966556358e+01,
+      "cpu_time": 3.9853072941516466e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/200",
+      "iterations": 17436618,
+      "real_time": 4.1196950348913859e+01,
+      "cpu_time": 4.0930529073929343e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/240",
+      "iterations": 16977682,
+      "real_time": 4.0836395569225679e+01,
+      "cpu_time": 4.0614437235895977e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/280",
+      "iterations": 17208488,
+      "real_time": 4.0754494816744966e+01,
+      "cpu_time": 4.0626869716851296e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/320",
+      "iterations": 17529625,
+      "real_time": 4.0592161897421654e+01,
+      "cpu_time": 4.0284318689076400e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/360",
+      "iterations": 16839593,
+      "real_time": 4.2514904487269689e+01,
+      "cpu_time": 4.2497048473796170e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/400",
+      "iterations": 16538298,
+      "real_time": 4.2159635713461860e+01,
+      "cpu_time": 4.2083653348125580e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/440",
+      "iterations": 17457186,
+      "real_time": 3.9452085634000483e+01,
+      "cpu_time": 3.9424051505208148e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/480",
+      "iterations": 17827309,
+      "real_time": 3.9367908695571458e+01,
+      "cpu_time": 3.9347553800744798e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/520",
+      "iterations": 17550458,
+      "real_time": 3.9554973266150952e+01,
+      "cpu_time": 3.9472075315641526e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/560",
+      "iterations": 17871185,
+      "real_time": 3.9192404364860700e+01,
+      "cpu_time": 3.9171884796671229e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/600",
+      "iterations": 17744385,
+      "real_time": 3.9280412648844639e+01,
+      "cpu_time": 3.9274959374472488e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/640",
+      "iterations": 17867079,
+      "real_time": 3.9182972661585254e+01,
+      "cpu_time": 3.9172491485597675e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/680",
+      "iterations": 17873694,
+      "real_time": 3.9569747809239622e+01,
+      "cpu_time": 3.9465372966550717e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/720",
+      "iterations": 17763567,
+      "real_time": 3.9216824638796211e+01,
+      "cpu_time": 3.9208566612775357e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/760",
+      "iterations": 17877392,
+      "real_time": 3.9202956784718644e+01,
+      "cpu_time": 3.9179372472226525e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/800",
+      "iterations": 17886436,
+      "real_time": 3.9179509266172396e+01,
+      "cpu_time": 3.9163922874294109e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/840",
+      "iterations": 17831169,
+      "real_time": 3.9185516047794032e+01,
+      "cpu_time": 3.9172754181175598e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/880",
+      "iterations": 17838031,
+      "real_time": 3.9801295557761101e+01,
+      "cpu_time": 3.9646920671905946e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/920",
+      "iterations": 17869177,
+      "real_time": 3.9196518395866036e+01,
+      "cpu_time": 3.9189381805328885e+01,
+      "time_unit": "ns"
+    },
+    {
+      "name": "benchmark_search<binary>/960",
+      "iterations": 17876570,
+      "real_time": 3.9178322799094175e+01,
+      "cpu_time": 3.9165399178925099e+01,
+      "time_unit": "ns"
+    }
+  ]
+}

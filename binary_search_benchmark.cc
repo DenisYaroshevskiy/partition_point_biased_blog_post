@@ -38,6 +38,13 @@ struct linear {
   }
 };
 
+struct binary {
+  template <typename I, typename V>
+  I operator()(I f, I l, const V& v) {
+    return std::lower_bound(f, l, v);
+  }
+};
+
 }  // namespace
 
 template <typename Searcher>
@@ -48,4 +55,4 @@ void benchmark_search(benchmark::State& state) {
     benchmark::DoNotOptimize(Searcher{}(input.begin(), input.end(), looking_for));
 }
 
-BENCHMARK_TEMPLATE(benchmark_search, linear)->Apply(set_looking_for_index);
+BENCHMARK_TEMPLATE(benchmark_search, binary)->Apply(set_looking_for_index);
