@@ -13,6 +13,8 @@ include_directories(./)
 set(HEADER_FILE
     catch.h)
 set(TEST_SOURCE_FILES
-    main_catch.cc)
+    third_party/main_catch.cc)
+set(BENCHMARK_SOURCE_FILES
+    third_party/google_benchmark_main.cc)
 
 add_executable(test ${TEST_SOURCE_FILES})
