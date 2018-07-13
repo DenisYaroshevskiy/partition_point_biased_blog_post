@@ -6,10 +6,18 @@
 
 namespace {
 
-constexpr std::size_t kProblemSize = 1001u;
+#define FULL_LENGHT
 
+#if defined(FULL_LENGHT)
+constexpr std::size_t kProblemSize = 1001u;
 constexpr std::size_t kStep = 40;
+#else
+constexpr std::size_t kProblemSize = 20u;
+constexpr std::size_t kStep = 1;
+#endif  // FULL_LENGHT
+
 constexpr std::size_t kMaxIdx = kProblemSize;
+
 
 const std::vector<std::int64_t>& ints_test() {
   static const auto res = [] {
@@ -27,7 +35,7 @@ const std::vector<std::int64_t>& ints_test() {
 }
 
 void set_looking_for_index(benchmark::internal::Benchmark* bench) {
-  for (std::size_t looking_for_idx = 0; looking_for_idx <= kMaxIdx; looking_for_idx += kStep)
+  for (std::size_t looking_for_idx = 0; looking_for_idx < kMaxIdx; looking_for_idx += kStep)
     bench->Arg(static_cast<int>(looking_for_idx));
 }
 
