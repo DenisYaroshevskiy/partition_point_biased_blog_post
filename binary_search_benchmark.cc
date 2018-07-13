@@ -6,7 +6,7 @@
 
 namespace {
 
-constexpr std::size_t kProblemSize = 1000u;
+constexpr std::size_t kProblemSize = 1001u;
 
 constexpr std::size_t kStep = 40;
 constexpr std::size_t kMaxIdx = kProblemSize;
@@ -27,14 +27,14 @@ const std::vector<std::int64_t>& ints_test() {
 }
 
 void set_looking_for_index(benchmark::internal::Benchmark* bench) {
-  for (std::size_t looking_for_idx = 0; looking_for_idx < kMaxIdx; looking_for_idx += kStep)
+  for (std::size_t looking_for_idx = 0; looking_for_idx <= kMaxIdx; looking_for_idx += kStep)
     bench->Arg(static_cast<int>(looking_for_idx));
 }
 
 struct linear {
   template <typename I, typename V>
   I operator()(I f, I l, const V& v) {
-    return std::find_if(f, l, [&](const auto& x) { !(x < v); });
+    return std::find_if(f, l, [&](const auto& x) { return !(x < v); });
   }
 };
 

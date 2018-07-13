@@ -71,7 +71,7 @@ class runner:
         layout['xaxis'] = dict(
             title = 'distance(f, result)',
             tick0 = 0,
-            dtick = (xs[-1] - xs[0]) / 20
+            dtick = (xs[-1] - xs[0]) / 25
         )
 
         layout['yaxis'] = dict(title = 'ns')
