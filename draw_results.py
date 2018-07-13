@@ -63,18 +63,11 @@ class runner:
 
     def generateLayout(self):
         layout = {}
-        xs = self.benchmarks[0].xs
 
-        for benchmark in self.benchmarks:
-            assert(xs == benchmark.xs)
-
-        layout['xaxis'] = dict(
-            title = 'distance(f, result)',
-            tick0 = 0,
-            dtick = (xs[-1] - xs[0]) / 25
-        )
-
+        layout['title'] = 'Searching for elements (0..' + str(self.benchmarks[0].xs[-1]) +')'
+        layout['xaxis'] = dict(title = 'distance(f, result)')
         layout['yaxis'] = dict(title = 'ns')
+
         self.layout = layout
 
     def draw(self):
