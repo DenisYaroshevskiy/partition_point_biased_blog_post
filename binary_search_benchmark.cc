@@ -4,6 +4,8 @@
 #include <cstdint>
 #include <random>
 
+#include "other_algorithms.h"
+
 namespace {
 
 #define FULL_LENGHT
@@ -53,6 +55,13 @@ struct binary {
   }
 };
 
+struct biased_v1 {
+  template <typename I, typename V>
+  I operator()(I f, I l, const V& v) {
+    return srt::v1::lower_bound_biased(f, l, v);
+  }
+};
+
 }  // namespace
 
 template <typename Searcher>
@@ -63,4 +72,4 @@ void benchmark_search(benchmark::State& state) {
     benchmark::DoNotOptimize(Searcher{}(input.begin(), input.end(), looking_for));
 }
 
-BENCHMARK_TEMPLATE(benchmark_search, binary)->Apply(set_looking_for_index);
+BENCHMARK_TEMPLATE(benchmark_search, biased_v1)->Apply(set_looking_for_index);

@@ -10,6 +10,9 @@ namespace v1 {
 template <typename I, typename P>
 // requires ForwardIterator<I> && Predicate<P(ValueType<I>)>
 I partition_point_biased(I f, I l, P p) {
+  if (f == l || !p(*f))
+    return f;
+
   DifferenceType<I> length = std::distance(f, l);
   DifferenceType<I> step = 1;
 

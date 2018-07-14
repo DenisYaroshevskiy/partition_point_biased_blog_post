@@ -15,6 +15,12 @@ def generateMapOfStyles():
         line = dict(width = 3, dash = 'dot', color = 'rgb(100, 000, 100)')
     )
 
+    styles['benchmark_search<biased_v1>'] = dict(
+        mode = 'lines',
+        name = 'biased_v1',
+        line = dict(width = 3, dash = 'solid', color = 'rgb(000, 100, 100)')
+    )
+
     return styles
 
 class parsedBenchmark:
