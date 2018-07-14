@@ -11,8 +11,12 @@ project(partition_point_biased_blog_post)
 include_directories(./)
 
 set(HEADER_FILE
-    catch.h)
+    catch.h
+    other_algorithms.h
+    result.h
+   )
 set(TEST_SOURCE_FILES
+    other_algorithms_test.cc
     third_party/main_catch.cc)
 set(BENCHMARK_SOURCE_FILES
     binary_search_benchmark.cc
