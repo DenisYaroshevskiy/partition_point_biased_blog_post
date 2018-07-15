@@ -21,7 +21,10 @@ set(TEST_SOURCE_FILES
 set(BENCHMARK_SOURCE_FILES
     binary_search_benchmark.cc
     third_party/google_benchmark_main.cc)
+set(BINARY_SEARCH_PREDICATE_INVOCATION_COUNT_FILES
+    binary_search_predicate_invocation_count.cc)
 
 add_executable(test ${TEST_SOURCE_FILES})
 add_executable(benchmarks ${BENCHMARK_SOURCE_FILES})
+add_executable(predicate_invocation_count ${BINARY_SEARCH_PREDICATE_INVOCATION_COUNT_FILES})
 target_link_libraries(benchmarks benchmark)
