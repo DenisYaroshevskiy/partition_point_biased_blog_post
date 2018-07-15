@@ -54,6 +54,20 @@ struct biased_v1 {
   }
 };
 
+struct linear_with_sentinel {
+  template <typename I, typename V>
+  I operator()(I f, I l, const V& v) {
+    return srt::lower_bound_linear_with_sentinel(f, l, v);
+  }
+};
+
+struct biased_final {
+  template <typename I, typename V>
+  I operator()(I f, I l, const V& v) {
+    return srt::lower_bound_biased(f, l, v);
+  }
+};
+
 }  // namespace
 
 template <typename Searcher>
@@ -64,4 +78,4 @@ void benchmark_search(benchmark::State& state) {
     benchmark::DoNotOptimize(Searcher{}(input.begin(), input.end(), looking_for));
 }
 
-BENCHMARK_TEMPLATE(benchmark_search, biased_v1)->Apply(set_looking_for_index);
+BENCHMARK_TEMPLATE(benchmark_search, biased_final)->Apply(set_looking_for_index);

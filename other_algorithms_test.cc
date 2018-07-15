@@ -29,3 +29,15 @@ TEST_CASE("lower_bound_biased_v1", "[blog_post]") {
     return srt::v1::lower_bound_biased(f, l, v);
   });
 }
+
+TEST_CASE("lower_bound_linear_with_sentinel", "[blog_post]") {
+  test_lower_bound_biased([](auto f, auto l, const auto& v) {
+    return srt::lower_bound_linear_with_sentinel(f, l, v);
+  });
+}
+
+TEST_CASE("lower_bound_biased", "[blog_post]") {
+  test_lower_bound_biased([](auto f, auto l, const auto& v) {
+    return srt::lower_bound_biased(f, l, v);
+  });
+}
