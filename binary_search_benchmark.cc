@@ -8,16 +8,8 @@
 
 namespace {
 
-#define FULL_LENGHT
-
-#if defined(FULL_LENGHT)
-constexpr std::size_t kProblemSize = 1001u;
-constexpr std::size_t kStep = 40;
-#else
-constexpr std::size_t kProblemSize = 20u;
+constexpr std::size_t kProblemSize = 1000u;
 constexpr std::size_t kStep = 1;
-#endif  // FULL_LENGHT
-
 constexpr std::size_t kMaxIdx = kProblemSize;
 
 

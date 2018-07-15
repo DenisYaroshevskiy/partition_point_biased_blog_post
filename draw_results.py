@@ -35,14 +35,22 @@ class runner:
         self.benchmarks = []
         self.data = None
         self.layout = None
+        self.smallestX = None
+        self.biggestX = None
 
     def parseFromOptions(self):
         parser = argparse.ArgumentParser(\
         description="Draws google benchmark's json output as a graph")
         parser.add_argument('results', metavar='results', nargs='+', \
              help='selected benchmarks to display on one chart')
+        parser.add_argument('--smallestX', type=int, dest='smallestX', default=0,
+                            help='left boundary on x axis')
+        parser.add_argument('--biggestX', type = int, dest='biggestX', default = 100000000,
+                            help='right boundary on y axis')
         options = parser.parse_args()
         self.jsonFiles = options.results
+        self.smallestX = options.smallestX
+        self.biggestX = options.biggestX
 
     def loadJsons(self):
         for jsonFile in self.jsonFiles:
@@ -52,7 +60,10 @@ class runner:
             xs = []
             times = []
             for measurement in loaded['benchmarks']:
-                xs.append(int(measurement['name'].split('/')[1]))
+                x = int(measurement['name'].split('/')[1])
+                if x < self.smallestX or x > self.biggestX:
+                    continue
+                xs.append(x)
                 times.append(float(measurement["real_time"]))
 
             self.benchmarks.append(parsedBenchmark(name, xs, times))
