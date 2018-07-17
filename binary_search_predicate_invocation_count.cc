@@ -45,6 +45,17 @@ struct biased_final {
   std::string name() const { return "biased_final"; }
 };
 
+struct biased_forward {
+  template <typename I, typename V, typename P>
+  I operator()(I f, I l, const V& v, P p) {
+    return srt::partition_point_biased(
+        f, l, [&](srt::Reference<I> x) { return p(x, v); },
+        std::forward_iterator_tag{});
+  }
+
+  std::string name() const { return "biased_forward"; }
+};
+
 int main() {
   constexpr std::size_t kProblemSize = 1000u;
 
@@ -59,7 +70,7 @@ int main() {
   std::cout << "{\n\"benchmarks\": [\n";
   for (int i = 0; i < static_cast<int>(kProblemSize); ++i) {
     if (i != 0) std::cout << ",\n";
-    mimicking_gbench_output(&v[0], &v[0] + v.size(), i, binary{});
+    mimicking_gbench_output(&v[0], &v[0] + v.size(), i, biased_forward{});
   }
   std::cout << "]}" << std::endl;
 }

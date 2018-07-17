@@ -33,6 +33,13 @@ def generateMapOfStyles():
         line = dict(width = 3, dash = 'solid', color = 'rgb(000, 153, 076)')
     )
 
+
+    styles['benchmark_search<biased_forward>'] = dict(
+        mode = 'lines',
+        name = 'biased_forward',
+        line = dict(width = 3, dash = 'solid', color = 'rgb(153, 000, 076)')
+    )
+
     return styles
 
 class parsedBenchmark:
