@@ -89,15 +89,11 @@ TEST_CASE("lower_bound_linear_with_sentinel", "[blog_post]") {
   });
 }
 
+// -------------------------------------------
+
 TEST_CASE("lower_bound_n", "[blog_post]") {
   test_lower_bound([](auto f, auto l, const auto& v) {
     return srt::lower_bound_n(f, std::distance(f, l), v);
-  });
-}
-
-TEST_CASE("lower_bound_biased", "[blog_post]") {
-  test_lower_bound([](auto f, auto l, const auto& v) {
-    return srt::lower_bound_biased(f, l, v);
   });
 }
 
@@ -110,5 +106,45 @@ TEST_CASE("upper_bound_n", "[blog_post]") {
 TEST_CASE("equal_range_n", "[blog_post]") {
   test_equal_range([](auto f, auto l, const auto& v) {
     return srt::equal_range_n(f, std::distance(f, l), v);
+  });
+}
+
+// -------------------------------------------
+
+TEST_CASE("lower_bound_biased_expensive_cmp", "[blog_post]") {
+  test_lower_bound([](auto f, auto l, const auto& v) {
+    return srt::lower_bound_biased_expensive_cmp(f, l, v);
+  });
+}
+
+TEST_CASE("upper_bound_biased_expensive_cmp", "[blog_post]") {
+  test_upper_bound([](auto f, auto l, const auto& v) {
+    return srt::upper_bound_biased_expensive_cmp(f, l, v);
+  });
+}
+
+TEST_CASE("equal_range_biased_expensive_cmp", "[blog_post]") {
+  test_equal_range([](auto f, auto l, const auto& v) {
+    return srt::equal_range_biased_expensive_cmp(f, l, v);
+  });
+}
+
+// -------------------------------------------
+
+TEST_CASE("lower_bound_biased", "[blog_post]") {
+  test_lower_bound([](auto f, auto l, const auto& v) {
+    return srt::lower_bound_biased(f, l, v);
+  });
+}
+
+TEST_CASE("upper_bound_biased", "[blog_post]") {
+  test_upper_bound([](auto f, auto l, const auto& v) {
+    return srt::upper_bound_biased(f, l, v);
+  });
+}
+
+TEST_CASE("equal_range_biased", "[blog_post]") {
+  test_equal_range([](auto f, auto l, const auto& v) {
+    return srt::equal_range_biased(f, l, v);
   });
 }

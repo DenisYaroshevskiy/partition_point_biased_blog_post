@@ -143,6 +143,32 @@ I lower_bound_biased_expensive_cmp(I f, I l, const V& v) {
   return lower_bound_biased_expensive_cmp(f, l, v, less{});
 }
 
+template <typename I, typename V, typename P>
+// requires ForwardIterator<I> && StrictWeakOrder<P(ValueType<I>, V)>
+I upper_bound_biased_expensive_cmp(I f, I l, const V& v, P p) {
+  return partition_point_biased_expensive_pred(f, l, [&](Reference<I> x) { return !p(v, x); });
+}
+
+template <typename I, typename V>
+// requires ForwardIterator<I> && WeakComarable<ValueType<I>, V>
+I upper_bound_biased_expensive_cmp(I f, I l, const V& v) {
+  return upper_bound_biased_expensive_cmp(f, l, v, less{});
+}
+
+template <typename I, typename V, typename P>
+// requires ForwardIterator<I> && StrictWeakOrder<P(ValueType<I>, V)>
+std::pair<I, I> equal_range_biased_expensive_cmp(I f, I l, const V& v, P p) {
+  auto lb = lower_bound_biased_expensive_cmp(f, l, v, p);
+  auto ub = upper_bound_biased_expensive_cmp(lb, l, v, p);
+  return {lb, ub};
+}
+
+template <typename I, typename V>
+// requires ForwardIterator<I> && WeakComarable<ValueType<I>, V>
+std::pair<I, I> equal_range_biased_expensive_cmp(I f, I l, const V& v) {
+  return equal_range_biased_expensive_cmp(f, l, v, less{});
+}
+
 template <typename I, typename P>
 I partition_point_biased(I f, I l, P p, std::forward_iterator_tag) {
   return partition_point_biased_expensive_pred(f, l, p);
@@ -201,5 +227,32 @@ template <typename I, typename V>
 I lower_bound_biased(I f, I l, const V& v) {
   return lower_bound_biased(f, l, v, less{});
 }
+
+template <typename I, typename V, typename P>
+// requires ForwardIterator<I> && StrictWeakOrder<P(ValueType<I>, V)>
+I upper_bound_biased(I f, I l, const V& v, P p) {
+  return partition_point_biased(f, l, [&](Reference<I> x) { return !p(v, x); });
+}
+
+template <typename I, typename V>
+// requires ForwardIterator<I> && WeakComarable<ValueType<I>, V>
+I upper_bound_biased(I f, I l, const V& v) {
+  return upper_bound_biased(f, l, v, less{});
+}
+
+template <typename I, typename V, typename P>
+// requires ForwardIterator<I> && StrictWeakOrder<P(ValueType<I>, V)>
+std::pair<I, I> equal_range_biased(I f, I l, const V& v, P p) {
+  auto lb = lower_bound_biased(f, l, v, p);
+  auto ub = upper_bound_biased(lb, l, v, p);
+  return {lb, ub};
+}
+
+template <typename I, typename V>
+// requires ForwardIterator<I> && WeakComarable<ValueType<I>, V>
+std::pair<I, I> equal_range_biased(I f, I l, const V& v) {
+  return equal_range_biased(f, l, v, less{});
+}
+
 
 }  // namespace srt
