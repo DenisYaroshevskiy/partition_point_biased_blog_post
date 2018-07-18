@@ -45,15 +45,13 @@ struct biased_final {
   std::string name() const { return "biased_final"; }
 };
 
-struct biased_forward {
+struct biased_expensive_cmp {
   template <typename I, typename V, typename P>
   I operator()(I f, I l, const V& v, P p) {
-    return srt::partition_point_biased(
-        f, l, [&](srt::Reference<I> x) { return p(x, v); },
-        std::forward_iterator_tag{});
+    return srt::lower_bound_biased_expensive_cmp(f, l, v, p);
   }
 
-  std::string name() const { return "biased_forward"; }
+  std::string name() const { return "biased_expensive_cmp"; }
 };
 
 int main() {
@@ -70,7 +68,7 @@ int main() {
   std::cout << "{\n\"benchmarks\": [\n";
   for (int i = 0; i < static_cast<int>(kProblemSize); ++i) {
     if (i != 0) std::cout << ",\n";
-    mimicking_gbench_output(&v[0], &v[0] + v.size(), i, biased_forward{});
+    mimicking_gbench_output(&v[0], &v[0] + v.size(), i, biased_expensive_cmp{});
   }
   std::cout << "]}" << std::endl;
 }

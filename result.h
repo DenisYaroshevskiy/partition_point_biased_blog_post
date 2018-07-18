@@ -74,6 +74,45 @@ I lower_bound_n(I f, DifferenceType<I> n, const V& v) {
   return lower_bound_n(f, n, v, less{});
 }
 
+template <typename I, typename V, typename P>
+// requires ForwardIterator<I> && StrictWeakOrder<P(ValueType<I>, V)>
+I upper_bound_n(I f, DifferenceType<I> n, const V& v, P p) {
+  return partition_point_n(f, n, [&](Reference<I> x) { return !p(v, x); });
+}
+
+template <typename I, typename V>
+// requires ForwardIterator<I> && WeakComarable<ValueType<I>, V>
+I upper_bound_n(I f, DifferenceType<I> n, const V& v) {
+  return upper_bound_n(f, n, v, less{});
+}
+
+template <typename I, typename V, typename P>
+// requires ForwardIterator<I> && StrictWeakOrder<P(ValueType<I>, V)>
+std::pair<I, I> equal_range_n(I f, DifferenceType<I> n, const V& v, P p) {
+  while (n != 0) {
+    DifferenceType<I> n2 = n / 2;
+    I m = std::next(f, n2);
+    if (p(*m, v)) {
+      f = ++m;
+      n -= n2 + 1;
+    } else if (p(v, *m)) {
+      n = n2;
+    } else {
+      return {
+          lower_bound_n(f, n2, v, p),
+          upper_bound_n(std::next(m), n - n2 - 1, v, p),
+      };
+    }
+  }
+  return {f, f};
+}
+
+template <typename I, typename V>
+// requires ForwardIterator<I> && WeakComarable<ValueType<I>, V>
+std::pair<I, I> equal_range_n(I f, DifferenceType<I> n, const V& v) {
+  return equal_range_n(f, n, v, less{});
+}
+
 template <typename I, typename P>
 // requires ForwardIterator<I> && Predicate<P(ValueType<I>)>
 I partition_point_biased_expensive_pred(I f, I l, P p) {

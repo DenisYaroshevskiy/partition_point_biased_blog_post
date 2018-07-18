@@ -34,9 +34,9 @@ def generateMapOfStyles():
     )
 
 
-    styles['benchmark_search<biased_forward>'] = dict(
+    styles['benchmark_search<biased_expensive_cmp>'] = dict(
         mode = 'lines',
-        name = 'biased_forward',
+        name = 'biased_expensive_cmp',
         line = dict(width = 3, dash = 'solid', color = 'rgb(153, 000, 076)')
     )
 

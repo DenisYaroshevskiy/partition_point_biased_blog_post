@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <forward_list>
 #include <random>
 
 #include "other_algorithms.h"
@@ -68,14 +69,23 @@ struct biased_final {
   }
 };
 
+struct biased_expensive_cmp {
+  template <typename I, typename V>
+  I operator()(I f, I l, const V& v) {
+    return srt::lower_bound_biased_expensive_cmp(f, l, v);
+  }
+};
+
 }  // namespace
 
 template <typename Searcher>
 void benchmark_search(benchmark::State& state) {
   auto input = ints_test();
   auto looking_for = input[static_cast<std::size_t>(state.range(0))];
+
+  std::forward_list<int> as_list(input.begin(), input.end());
   for (auto _ : state)
-    benchmark::DoNotOptimize(Searcher{}(input.begin(), input.end(), looking_for));
+    benchmark::DoNotOptimize(Searcher{}(as_list.begin(), as_list.end(), looking_for));
 }
 
-BENCHMARK_TEMPLATE(benchmark_search, biased_final)->Apply(set_looking_for_index);
+BENCHMARK_TEMPLATE(benchmark_search, binary)->Apply(set_looking_for_index);
