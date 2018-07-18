@@ -1,6 +1,7 @@
 #include "other_algorithms.h"
 #include "third_party/catch.h"
 
+#include <forward_list>
 #include <list>
 #include <numeric>
 #include <vector>
@@ -40,8 +41,7 @@ template <typename Alg>
 void test_upper_bound(Alg alg) {
   std::vector<int> v_data;
   for (int i = 0; i < 10; ++i)
-    for (int j = 0; j < i; ++j)
-      v_data.push_back(i);
+    for (int j = 0; j < i; ++j) v_data.push_back(i);
 
   auto test = [&](auto f, auto l, int v) {
     REQUIRE(alg(f, l, v) == std::upper_bound(f, l, v));
@@ -57,8 +57,7 @@ template <typename Alg>
 void test_equal_range(Alg alg) {
   std::vector<int> v_data;
   for (int i = 0; i < 10; ++i)
-    for (int j = 0; j < i; ++j)
-      v_data.push_back(i);
+    for (int j = 0; j < i; ++j) v_data.push_back(i);
 
   auto test = [&](auto f, auto l, int v) {
     auto alg_res = alg(f, l, v);
@@ -147,4 +146,49 @@ TEST_CASE("equal_range_biased", "[blog_post]") {
   test_equal_range([](auto f, auto l, const auto& v) {
     return srt::equal_range_biased(f, l, v);
   });
+}
+
+TEST_CASE("group_equals", "[blog_post]") {
+  std::vector<int> v;
+  for (int i = 0; i < 10; ++i) {
+    for (int j = 0; j < i; ++j) v.push_back(i);
+  }
+  std::forward_list<int> fl(v.begin(), v.end());
+
+  {
+    for (auto r : group_equals(v.begin(), v.end(), srt::less{})) {
+      int elem = *r.begin();
+
+      std::vector<int> expected(elem, elem);
+      std::vector<int> actual(r.begin(), r.end());
+
+      REQUIRE(actual == expected);
+    }
+  }
+
+  {
+    auto v_groups = group_equals(v.begin(), v.end(), srt::less{});
+    static_assert(srt::is_bidirectional_v<decltype(v_groups)::iterator>, "");
+
+    for (auto rit = v_groups.crbegin(); rit != v_groups.crend(); ++rit) {
+      auto r = *rit;
+      int elem = *r.begin();
+
+      std::vector<int> expected(elem, elem);
+      std::vector<int> actual(r.begin(), r.end());
+
+      REQUIRE(actual == expected);
+    }
+  }
+
+  {
+    for (auto r : group_equals(fl.begin(), fl.end(), srt::less{})) {
+      int elem = *r.begin();
+
+      std::vector<int> expected(elem, elem);
+      std::vector<int> actual(r.begin(), r.end());
+
+      REQUIRE(actual == expected);
+    }
+  }
 }

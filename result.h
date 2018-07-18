@@ -20,6 +20,11 @@ template <typename I>
 using IteratorCategory = typename std::iterator_traits<I>::iterator_category;
 
 template <typename I>
+constexpr bool is_bidirectional_v =
+    std::is_base_of<std::bidirectional_iterator_tag,
+                    IteratorCategory<I>>::value;
+
+template <typename I>
 using Reference = typename std::iterator_traits<I>::reference;
 
 template <typename I>
@@ -146,7 +151,8 @@ I lower_bound_biased_expensive_cmp(I f, I l, const V& v) {
 template <typename I, typename V, typename P>
 // requires ForwardIterator<I> && StrictWeakOrder<P(ValueType<I>, V)>
 I upper_bound_biased_expensive_cmp(I f, I l, const V& v, P p) {
-  return partition_point_biased_expensive_pred(f, l, [&](Reference<I> x) { return !p(v, x); });
+  return partition_point_biased_expensive_pred(
+      f, l, [&](Reference<I> x) { return !p(v, x); });
 }
 
 template <typename I, typename V>
@@ -254,5 +260,113 @@ std::pair<I, I> equal_range_biased(I f, I l, const V& v) {
   return equal_range_biased(f, l, v, less{});
 }
 
+template <typename I>
+struct range_pair : std::pair<I, I> {
+  using base = std::pair<I, I>;
+
+  using iterator = I;
+  using reverse_iterator = std::reverse_iterator<iterator>;
+
+  using base::base;
+  iterator begin() const { return base::first; }
+  iterator cbegin() const { return begin(); }
+
+  iterator end() const { return base::second; }
+  iterator cend() const { return end(); }
+
+  reverse_iterator rbegin() const { return reverse_iterator(end()); }
+  reverse_iterator crbegin() const { return rbegin(); }
+
+  reverse_iterator rend() const { return reverse_iterator(begin()); }
+  reverse_iterator crend() const { return rend(); }
+};
+
+template <typename I, typename P>
+// requires ForwardIterator<I> && StrictWeakOrder<P(ValueType<I>)>
+class group_equals_iterator : P {
+  I f_;
+  I l_;
+  range_pair<I> cur_;
+
+  void update_cur(I start) {
+    cur_.first = start;
+    if (start == l_) {
+      cur_.second = l_;
+      return;
+    }
+    cur_.second = upper_bound_biased(start, l_, *cur_.first, P(*this));
+  }
+
+  void update_cur(std::reverse_iterator<I> end) {
+    cur_.second = end.base();
+    std::reverse_iterator<I> reverse_f(f_);
+
+    if (end == reverse_f) {
+      cur_.first = f_;
+      return;
+    }
+
+    auto reverse_p = [&](const auto& x, const auto& y) {
+      return P(*this)(y, x);
+    };
+
+    cur_.first = upper_bound_biased(end, reverse_f, *end, reverse_p).base();
+  }
+
+ public:
+  using difference_type = DifferenceType<I>;
+  using value_type = range_pair<I>;
+  using pointer = const value_type*;
+  using reference = const value_type&;
+  using iterator_category =
+      std::conditional_t<is_bidirectional_v<I>, std::bidirectional_iterator_tag,
+                         std::forward_iterator_tag>;
+
+  group_equals_iterator(I f, I l, I pos, P p) : P(p), f_(f), l_(l) {
+    update_cur(pos);
+  }
+
+  reference operator*() const { return cur_; }
+  pointer operator->() const { return &cur_; }
+
+  group_equals_iterator& operator++() {
+    update_cur(cur_.second);
+    return *this;
+  }
+
+  group_equals_iterator operator++(int) {
+    auto tmp = *this;
+    ++(*this);
+    return tmp;
+  }
+
+  group_equals_iterator& operator--() {
+    update_cur(std::reverse_iterator<I>(cur_.first));
+    return *this;
+  }
+
+  group_equals_iterator operator--(int) {
+    auto tmp = *this;
+    --(*this);
+    return tmp;
+  }
+
+  friend bool operator==(const group_equals_iterator& x,
+                         const group_equals_iterator& y) {
+    return x.cur_ == y.cur_;
+  }
+
+  friend bool operator!=(const group_equals_iterator& x,
+                         const group_equals_iterator& y) {
+    return !(x == y);
+  }
+};
+
+template <typename I, typename P>
+// requires ForwardIterator<I> && StrictWeakOrder<P(ValueType<I>)>
+range_pair<group_equals_iterator<I, P>> group_equals(I f, I l, P p) {
+  return {group_equals_iterator<I, P>{f, l, f, p},
+          group_equals_iterator<I, P>{f, l, l, p}};
+}
 
 }  // namespace srt
