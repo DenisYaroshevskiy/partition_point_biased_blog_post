@@ -16,6 +16,7 @@ set(HEADER_FILE
     result.h
    )
 set(TEST_SOURCE_FILES
+    flat_map_of_flat_sets.cc
     other_algorithms_test.cc
     third_party/main_catch.cc)
 set(BENCHMARK_SOURCE_FILES
