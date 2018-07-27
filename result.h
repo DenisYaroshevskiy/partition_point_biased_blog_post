@@ -260,6 +260,57 @@ std::pair<I, I> equal_range_biased(I f, I l, const V& v) {
   return equal_range_biased(f, l, v, less{});
 }
 
+template <typename I, typename P>
+// requires BidirectionalIterator<I> && UnaryPredicate<P(ValueType<I>)>
+I partition_point_hinted(I f, I h, I l, P p) {
+  I fwd_attempt = partition_point_biased(h, l, p);
+  if (fwd_attempt != h) return fwd_attempt;
+  return partition_point_biased(std::reverse_iterator<I>(h),
+                                std::reverse_iterator<I>(f),
+                                [&](Reference<I> x) { return !p(x); })
+      .base();
+}
+
+template <typename I, typename V, typename P>
+// requires BidirectionalIterator<I> && WeakComarable<ValueType<I>, V>
+I lower_bound_hinted(I f, I h, I l, const V& v, P p) {
+  return partition_point_hinted(f, h, l,
+                                [&](Reference<I> x) { return p(x, v); });
+}
+
+template <typename I, typename V>
+// requires BidirectionalIterator<I> && WeakComarable<ValueType<I>, V>
+I lower_bound_hinted(I f, I h, I l, const V& v) {
+  return lower_bound_hinted(f, h, l, v, less{});
+}
+
+template <typename I, typename V, typename P>
+// requires BidirectionalIterator<I> && StrictWeakOrder<P(ValueType<I>, V)>
+I upper_bound_hinted(I f, I h, I l, const V& v, P p) {
+  return partition_point_hinted(f, h, l,
+                                [&](Reference<I> x) { return !p(v, x); });
+}
+
+template <typename I, typename V>
+// requires BidirectionalIterator<I> && WeakComarable<ValueType<I>, V>
+I upper_bound_hinted(I f, I h, I l, const V& v) {
+  return upper_bound_hinted(f, h, l, v, less{});
+}
+
+template <typename I, typename V, typename P>
+// requires BidirectionalIterator<I> && StrictWeakOrder<P(ValueType<I>, V)>
+std::pair<I, I> equal_range_hinted(I f, I h, I l, const V& v, P p) {
+  I lb = lower_bound_hinted(f, h, l, v, p);
+  I ub = upper_bound_biased(lb, l, v, p);
+  return {lb, ub};
+}
+
+template <typename I, typename V>
+// requires BidirectionalIterator<I> && WeakComarable<ValueType<I>, V>
+std::pair<I, I> equal_range_hinted(I f, I h, I l, const V& v) {
+  return equal_range_hinted(f, h, l, v, less{});
+}
+
 template <typename I>
 struct range_pair : std::pair<I, I> {
   using base = std::pair<I, I>;
