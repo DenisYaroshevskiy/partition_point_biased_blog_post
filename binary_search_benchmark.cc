@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <forward_list>
 #include <random>
+#include <set>
 
 #include "other_algorithms.h"
 
@@ -13,17 +14,17 @@ constexpr std::size_t kProblemSize = 1000u;
 constexpr std::size_t kStep = 1;
 constexpr std::size_t kMaxIdx = kProblemSize;
 
-
 const std::vector<std::int64_t>& ints_test() {
-  static const auto res = [] {
+  static const auto res = [] () -> std::vector<std::int64_t> {
     std::mt19937 g;
     std::uniform_int_distribution<std::int64_t> dis(
         1, static_cast<std::int64_t>(kProblemSize) * 10);
 
-    std::vector<std::int64_t> v(kProblemSize);
-    std::generate(v.begin(), v.end(), [&] { return dis(g); });
-    std::sort(v.begin(), v.end());
-    return v;
+    std::set<std::int64_t> unique_sorted_ints;
+    while (unique_sorted_ints.size() < kProblemSize)
+      unique_sorted_ints.insert(dis(g));
+
+    return {unique_sorted_ints.begin(), unique_sorted_ints.end()};
   }();
 
   return res;
