@@ -6,6 +6,8 @@
 #include <numeric>
 #include <vector>
 
+#include <random>
+
 namespace {
 
 template <typename I, typename Test>

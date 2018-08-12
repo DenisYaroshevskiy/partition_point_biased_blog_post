@@ -84,9 +84,14 @@ void benchmark_search(benchmark::State& state) {
   auto input = ints_test();
   auto looking_for = input[static_cast<std::size_t>(state.range(0))];
 
+#if 0
+  for (auto _ : state)
+    benchmark::DoNotOptimize(Searcher{}(input.begin(), input.end(), looking_for));
+#endif
+
   std::forward_list<int> as_list(input.begin(), input.end());
   for (auto _ : state)
     benchmark::DoNotOptimize(Searcher{}(as_list.begin(), as_list.end(), looking_for));
 }
 
-BENCHMARK_TEMPLATE(benchmark_search, binary)->Apply(set_looking_for_index);
+BENCHMARK_TEMPLATE(benchmark_search, biased_expensive_cmp)->Apply(set_looking_for_index);

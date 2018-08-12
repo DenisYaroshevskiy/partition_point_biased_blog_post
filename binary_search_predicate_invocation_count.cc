@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <iostream>
 #include <random>
+#include <set>
 #include <string>
 
 #include "other_algorithms.h"
@@ -19,12 +20,13 @@ int count_compare_invocations(I f, I l, int pos, Alg alg) {
 template <typename I, typename Alg>
 void mimicking_gbench_output(I f, I l, int pos, Alg alg) {
   int res = count_compare_invocations(f, l, pos, alg);
-  std::cout << "{\n"
-            <<  //
-      "\"name\" : \"benchmark_search<" << alg.name() << ">/" << pos << "\",\n"
-            <<                      //
-      "\"real_time\" : " << res <<  //
+// clang-format off
+  std::cout
+    <<"{\n" <<                                                                           //
+           "\"name\" : \"benchmark_search<" << alg.name() << ">/" << pos << "\",\n" <<   //
+           "\"real_time\" : " << res <<  //
       "\n}";
+// clang-format on
 }
 
 struct binary {
@@ -61,9 +63,12 @@ int main() {
   std::uniform_int_distribution<std::int64_t> dis(
       1, static_cast<std::int64_t>(kProblemSize) * 10);
 
-  std::vector<std::int64_t> v(kProblemSize);
-  std::generate(v.begin(), v.end(), [&] { return dis(g); });
-  std::sort(v.begin(), v.end());
+  std::set<std::int64_t> unique_sorted_ints;
+  while (unique_sorted_ints.size() < kProblemSize)
+    unique_sorted_ints.insert(dis(g));
+
+  std::vector<std::int64_t> v(unique_sorted_ints.begin(),
+                              unique_sorted_ints.end());
 
   std::cout << "{\n\"benchmarks\": [\n";
   for (int i = 0; i < static_cast<int>(kProblemSize); ++i) {

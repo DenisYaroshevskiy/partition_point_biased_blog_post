@@ -42,7 +42,7 @@ I lower_bound_biased(I f, I l, const V& v) {
 }  // namespace v1
 
 template <typename I, typename P>
-// requires ForwardIterator<I> && Predicate<P(ValueType<I>)>
+// requires BidirectionalIterator<I> && Predicate<P(ValueType<I>)>
 I partition_point_linear_with_sentinel(I f, I l, P p) {
   if (f == l) return f;
 
@@ -56,14 +56,14 @@ I partition_point_linear_with_sentinel(I f, I l, P p) {
 }
 
 template <typename I, typename V, typename P>
-// requires ForwardIterator<I> && StrictWeakOrder<P(ValueType<I>, V)>
+// requires BidirectionalIterator<I> && StrictWeakOrder<P(ValueType<I>, V)>
 I lower_bound_linear_with_sentinel(I f, I l, const V& v, P p) {
   return partition_point_linear_with_sentinel(
       f, l, [&](Reference<I> x) { return p(x, v); });
 }
 
 template <typename I, typename V>
-// requires ForwardIterator<I> && WeakComarable<ValueType<I>, V>
+// requires BidirectionalIterator<I> && WeakComarable<ValueType<I>, V>
 I lower_bound_linear_with_sentinel(I f, I l, const V& v) {
   return lower_bound_linear_with_sentinel(f, l, v, less{});
 }
