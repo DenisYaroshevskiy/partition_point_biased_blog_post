@@ -1,0 +1,1 @@
+This is the code for a blog post: https://medium.com/@denis.yaroshevskij/between-linear-and-binary-search-8d21877cfce5
