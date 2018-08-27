@@ -47,7 +47,7 @@ I partition_point_linear_with_sentinel(I f, I l, P p) {
   if (f == l) return f;
 
   I sent = std::prev(l);
-  if (p(*sent)) return sent;
+  if (p(*sent)) return l;
 
   while (true) {
     if (!p(*f)) return f;
