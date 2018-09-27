@@ -16,7 +16,7 @@ void run_for_inputs(I f, I l, Test test) {
 
   I selected_f = std::prev(l);
   while (true) {
-    for (int i = *selected_f - 1; i != *(std::prev(l)) + 1; ++i)
+    for (int i = *selected_f - 1; i != *(std::prev(l)) + 2; ++i)
       for (I h = selected_f; h != l; ++h) test(selected_f, h, l, i);
 
     if (selected_f == f) break;
@@ -167,6 +167,14 @@ TEST_CASE("upper_bound_hinted", "[blog_post]") {
 TEST_CASE("equal_range_hinted", "[blog_post]") {
   test_equal_range([](auto f, auto h, auto l, const auto& v) {
     return srt::equal_range_hinted(f, h, l, v);
+  });
+}
+
+// ----------------------------------------------
+
+TEST_CASE("lower_bound_with_unsigned", "[SeanParentTwit]") {
+  test_lower_bound([](auto f, auto, auto l, const auto& v) {
+    return srt::lower_bound_with_unsigned(f, l, v);
   });
 }
 
