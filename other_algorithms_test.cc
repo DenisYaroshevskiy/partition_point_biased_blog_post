@@ -180,6 +180,14 @@ TEST_CASE("lower_bound_with_unsigned", "[SeanParentTwit]") {
 
 // ----------------------------------------------
 
+TEST_CASE("lower_bound_with_index_type", "[SeanParentTwit]") {
+  test_lower_bound([](auto f, auto, auto l, const auto& v) {
+    return srt::lower_bound_with_index_type<int>(f, l, v);
+  });
+}
+
+// ----------------------------------------------
+
 TEST_CASE("group_equals", "[blog_post]") {
   std::vector<int> v;
   for (int i = 0; i < 10; ++i) {
